@@ -14,6 +14,12 @@ public class ApplicationUser {
     private String email;
     private String password;
 
+    public ApplicationUser() {}
+    public ApplicationUser(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     public Integer getId() {
         return id;
     }
