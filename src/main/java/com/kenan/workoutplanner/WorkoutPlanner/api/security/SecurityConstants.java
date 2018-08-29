@@ -1,4 +1,4 @@
-package com.kenan.workoutplanner.WorkoutPlanner.security;
+package com.kenan.workoutplanner.WorkoutPlanner.api.security;
 
 public class SecurityConstants {
     public static final String SECRET = "SecretKeyToGenJWTs";

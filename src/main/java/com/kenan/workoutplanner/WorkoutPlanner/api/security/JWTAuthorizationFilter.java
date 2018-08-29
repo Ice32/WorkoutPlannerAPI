@@ -1,4 +1,4 @@
-package com.kenan.workoutplanner.WorkoutPlanner.security;
+package com.kenan.workoutplanner.WorkoutPlanner.api.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.kenan.workoutplanner.WorkoutPlanner.security.SecurityConstants.HEADER_STRING;
-import static com.kenan.workoutplanner.WorkoutPlanner.security.SecurityConstants.SECRET;
-import static com.kenan.workoutplanner.WorkoutPlanner.security.SecurityConstants.TOKEN_PREFIX;
+import static com.kenan.workoutplanner.WorkoutPlanner.api.security.SecurityConstants.HEADER_STRING;
+import static com.kenan.workoutplanner.WorkoutPlanner.api.security.SecurityConstants.SECRET;
+import static com.kenan.workoutplanner.WorkoutPlanner.api.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 

@@ -1,5 +1,7 @@
-package com.kenan.workoutplanner.WorkoutPlanner;
+package com.kenan.workoutplanner.WorkoutPlanner.api;
 
+import com.kenan.workoutplanner.WorkoutPlanner.repositories.UsersRepository;
+import com.kenan.workoutplanner.WorkoutPlanner.models.ApplicationUser;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

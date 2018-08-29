@@ -1,6 +1,6 @@
-package com.kenan.workoutplanner.WorkoutPlanner.errors;
+package com.kenan.workoutplanner.WorkoutPlanner.api.errors;
 
-import com.kenan.workoutplanner.WorkoutPlanner.ResponseData;
+import com.kenan.workoutplanner.WorkoutPlanner.api.ResponseData;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

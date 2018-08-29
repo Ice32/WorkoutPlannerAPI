@@ -1,7 +1,10 @@
-package com.kenan.workoutplanner.WorkoutPlanner;
+package com.kenan.workoutplanner.WorkoutPlanner.api.controllers;
 
-import com.kenan.workoutplanner.WorkoutPlanner.errors.ApiErrors;
-import com.kenan.workoutplanner.WorkoutPlanner.errors.BadRequestError;
+import com.kenan.workoutplanner.WorkoutPlanner.api.ResponseData;
+import com.kenan.workoutplanner.WorkoutPlanner.repositories.UsersRepository;
+import com.kenan.workoutplanner.WorkoutPlanner.api.errors.ApiErrors;
+import com.kenan.workoutplanner.WorkoutPlanner.api.errors.BadRequestError;
+import com.kenan.workoutplanner.WorkoutPlanner.models.ApplicationUser;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

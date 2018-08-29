@@ -1,4 +1,4 @@
-package com.kenan.workoutplanner.WorkoutPlanner;
+package com.kenan.workoutplanner.WorkoutPlanner.api;
 
 public class ResponseData<T> {
     public T data;

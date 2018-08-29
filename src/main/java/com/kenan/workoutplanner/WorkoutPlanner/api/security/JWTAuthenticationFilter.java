@@ -1,8 +1,8 @@
-package com.kenan.workoutplanner.WorkoutPlanner.security;
+package com.kenan.workoutplanner.WorkoutPlanner.api.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kenan.workoutplanner.WorkoutPlanner.ApplicationUser;
+import com.kenan.workoutplanner.WorkoutPlanner.models.ApplicationUser;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-import static com.kenan.workoutplanner.WorkoutPlanner.security.SecurityConstants.*;
+import static com.kenan.workoutplanner.WorkoutPlanner.api.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;

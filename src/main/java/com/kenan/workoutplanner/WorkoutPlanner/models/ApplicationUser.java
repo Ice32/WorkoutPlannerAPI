@@ -1,4 +1,4 @@
-package com.kenan.workoutplanner.WorkoutPlanner;
+package com.kenan.workoutplanner.WorkoutPlanner.models;
 
 
 import javax.persistence.*;
@@ -19,6 +19,13 @@ public class ApplicationUser {
         this.email = email;
         this.password = password;
     }
+    public ApplicationUser(ApplicationUser original) {
+        this.id = original.id;
+        this.fullName = new String(original.fullName != null ? original.fullName : "");
+        this.email = new String(original.email != null ? original.email : "");
+        this.password = new String(original.password != null ? original.password : "");
+    }
+
 
     public Integer getId() {
         return id;
@@ -51,4 +58,5 @@ public class ApplicationUser {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
