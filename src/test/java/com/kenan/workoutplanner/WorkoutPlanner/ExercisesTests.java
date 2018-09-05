@@ -2,11 +2,10 @@ package com.kenan.workoutplanner.WorkoutPlanner;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.kenan.workoutplanner.WorkoutPlanner.helpers.AuthHelpers;
 import com.kenan.workoutplanner.WorkoutPlanner.models.ApplicationUser;
-import com.kenan.workoutplanner.WorkoutPlanner.models.Workout;
-import com.kenan.workoutplanner.WorkoutPlanner.repositories.WorkoutsRepository;
+import com.kenan.workoutplanner.WorkoutPlanner.models.Exercise;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -31,18 +28,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestEntityManager
 @Transactional
-public class WorkoutsTest {
+public class ExercisesTests {
     @Autowired
     private MockMvc mvc;
 
     @Autowired
     private AuthHelpers authHelpers;
 
-    @Autowired
-    private WorkoutsRepository workoutsRepository;
-
     @Test
-    public void getUserWorkouts() throws Exception {
+    public void getUserExercises() throws Exception {
         // arrange
         ApplicationUser user = new ApplicationUser("user_workouts@mail.com", "password");
         authHelpers.storeUser(user);
@@ -50,38 +44,13 @@ public class WorkoutsTest {
 
         // act && assert
         final MvcResult result = this.mvc.perform(
-                get("/workouts")
+                get("/exercises")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + jwtToken)
         ).andExpect(status().isOk()).andReturn();
 
         ObjectMapper mapper = new ObjectMapper();
-        mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Workout>>() {});
-    }
-
-    @Test
-    public void createWorkout() throws Exception {
-        // arrange
-        ApplicationUser user = new ApplicationUser("user_workouts@mail.com", "password");
-        authHelpers.storeUser(user);
-        String jwtToken = authHelpers.generateJWTToken(user);
-
-        Workout workout = new Workout("workout");
-        Gson gson = new Gson();
-        String workoutJson = gson.toJson(workout);
-
-        // act && assert
-        final MvcResult result = this.mvc.perform(
-                post("/workouts")
-                        .content(workoutJson)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + jwtToken)
-        ).andExpect(status().isOk()).andReturn();
-
-        ObjectMapper mapper = new ObjectMapper();
-        Workout savedWorkout = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Workout>() {});
-
-        Workout insertedWorkout = workoutsRepository.getOne(savedWorkout.getId());
-        assertEquals(insertedWorkout.getUser().getEmail(), user.getEmail());
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Exercise>>() {});
     }
 }

@@ -1,10 +1,16 @@
 package com.kenan.workoutplanner.WorkoutPlanner.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ApplicationUser {
     @Id
     @GeneratedValue
@@ -13,6 +19,10 @@ public class ApplicationUser {
     @Column(unique=true)
     private String email;
     private String password;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "user", targetEntity=Workout.class, fetch= FetchType.LAZY)
+    private List<Workout> workouts = new ArrayList<>();
 
     public ApplicationUser() {}
     public ApplicationUser(String email, String password) {
@@ -59,4 +69,11 @@ public class ApplicationUser {
         this.password = password;
     }
 
+    public List<Workout> getWorkouts() {
+        return workouts;
+    }
+
+    public void setWorkouts(List<Workout> workouts) {
+        this.workouts = workouts;
+    }
 }
