@@ -1,20 +1,28 @@
 package com.kenan.workoutplanner.WorkoutPlanner.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "exercise")
 public class Exercise {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private int sets;
     private int reps;
 
+    public Exercise() {}
+    public Exercise(String name) {
+        this.name = name;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Workout> workouts;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "workoutId")
-    private Workout workout;
+    private ApplicationUser user;
 
     public int getId() {
         return id;
@@ -40,13 +48,6 @@ public class Exercise {
         this.reps = reps;
     }
 
-    public Workout getWorkout() {
-        return workout;
-    }
-
-    public void setWorkout(Workout workout) {
-        this.workout = workout;
-    }
 
     public String getName() {
         return name;
@@ -54,5 +55,21 @@ public class Exercise {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Workout> getWorkouts() {
+        return workouts;
+    }
+
+    public void setWorkouts(List<Workout> workouts) {
+        this.workouts = workouts;
+    }
+
+    public ApplicationUser getUser() {
+        return user;
+    }
+
+    public void setUser(ApplicationUser user) {
+        this.user = user;
     }
 }

@@ -17,6 +17,8 @@ public class ScheduledWorkout {
     @NotNull
     private Date time;
 
+    private boolean done = false;
+
     public ScheduledWorkout() {}
     public ScheduledWorkout(@NotNull Workout workout, @NotNull Date time) {
         this.workout = workout;
@@ -37,5 +39,21 @@ public class ScheduledWorkout {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public boolean getDone() {
+        return done;
+    }
+
+    public void setDone(Boolean done) {
+        this.done = done;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

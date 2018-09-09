@@ -24,6 +24,12 @@ public class ScheduledWorkoutsController {
         final List<ScheduledWorkout> scheduledWorkouts = scheduledWorkoutsRepository.findAll();
         return scheduledWorkouts;
     }
+
+    @GetMapping("/scheduled_workouts/done")
+    public List<ScheduledWorkout> getDoneScheduledWorkouts() {
+        final List<ScheduledWorkout> scheduledWorkouts = scheduledWorkoutsRepository.findBydone(true);
+        return scheduledWorkouts;
+    }
     @PostMapping("/scheduled_workouts")
     public ScheduledWorkout scheduleWorkout(@RequestBody ScheduledWorkout scheduledWorkout) {
         return scheduledWorkoutsRepository.save(scheduledWorkout);

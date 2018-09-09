@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ExercisesRepository  extends JpaRepository<Exercise, Integer> {
-    @Query("SELECT e FROM Exercise e JOIN e.workout w JOIN w.user u where u.id = :userId")
+    @Query("SELECT e FROM Exercise e JOIN e.user u where u.id = :userId")
     public List<Exercise> findExercisesForUser(@Param("userId") Integer userId);
 }

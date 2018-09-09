@@ -10,12 +10,12 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Workout {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
 
-    @OneToMany(targetEntity=Exercise.class, fetch= FetchType.EAGER)
+    @ManyToMany(targetEntity=Exercise.class, fetch= FetchType.EAGER)
     private List<Exercise> exercises = new ArrayList<>();
 
     @OneToMany(mappedBy = "workout", targetEntity=ScheduledWorkout.class, fetch= FetchType.LAZY)

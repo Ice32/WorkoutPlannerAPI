@@ -4,10 +4,9 @@ import com.kenan.workoutplanner.WorkoutPlanner.models.ApplicationUser;
 import com.kenan.workoutplanner.WorkoutPlanner.models.Exercise;
 import com.kenan.workoutplanner.WorkoutPlanner.repositories.ExercisesRepository;
 import com.kenan.workoutplanner.WorkoutPlanner.repositories.UsersRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +28,13 @@ public class ExercisesController {
         ApplicationUser currentUser = usersRepository.findByEmail((String) authentication.getPrincipal());
         final List<Exercise> exercisesForUser = exercisesRepository.findExercisesForUser(currentUser.getId());
         return exercisesForUser;
+    }
+
+    @PostMapping("/exercises")
+    public Exercise createExercise(@RequestBody Exercise exercise) {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        ApplicationUser currentUser = usersRepository.findByEmail((String) authentication.getPrincipal());
+        exercise.setUser(currentUser);
+        return exercisesRepository.save(exercise);
     }
 }
