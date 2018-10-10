@@ -3,6 +3,8 @@ package com.kenan.workoutplanner.WorkoutPlanner.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,9 +18,11 @@ public class ApplicationUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String fullName;
-    @Column(unique=true)
+    @Column(unique=true, nullable = false)
     private String email;
+    @Column(unique=true, nullable = false)
     private String password;
+    private String refreshToken;
 
     @JsonBackReference
     @OneToMany(mappedBy = "user", targetEntity=Workout.class, fetch= FetchType.LAZY)
@@ -75,5 +79,14 @@ public class ApplicationUser {
 
     public void setWorkouts(List<Workout> workouts) {
         this.workouts = workouts;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(@NotNull String refreshToken) {
+        Assert.notNull(refreshToken, "refresh token has to exist");
+        this.refreshToken = refreshToken;
     }
 }

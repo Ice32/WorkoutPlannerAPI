@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UsersRepository extends JpaRepository<ApplicationUser, Integer> {
     ApplicationUser findByEmail(String email);
+    ApplicationUser findByRefreshToken(String refreshToken);
 }
