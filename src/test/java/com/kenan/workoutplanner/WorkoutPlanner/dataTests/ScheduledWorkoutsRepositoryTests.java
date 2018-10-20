@@ -1,5 +1,6 @@
 package com.kenan.workoutplanner.WorkoutPlanner.dataTests;
 
+import com.kenan.workoutplanner.WorkoutPlanner.models.ApplicationUser;
 import com.kenan.workoutplanner.WorkoutPlanner.models.ScheduledWorkout;
 import com.kenan.workoutplanner.WorkoutPlanner.models.Workout;
 import com.kenan.workoutplanner.WorkoutPlanner.repositories.ScheduledWorkoutsRepository;
@@ -44,21 +45,24 @@ public class ScheduledWorkoutsRepositoryTests {
     @DisplayName("findAllDoneScheduledWorkouts_oneDoneAndOneNotDoneWorkoutExists_returnsOneWorkout")
     public void testFind() throws Exception {
         // arrange
-
+        ApplicationUser user = new ApplicationUser("neki@mail.com", "");
         Workout workout = new Workout();
+        workout.setUser(user);
+
         ScheduledWorkout doneScheduledWorkout = new ScheduledWorkout(workout, new Date());
         doneScheduledWorkout.setDone(true);
 
         ScheduledWorkout notDoneScheduledWorkout = new ScheduledWorkout(workout, date1);
         notDoneScheduledWorkout.setDone(false);
 
+        entityManager.persist(user);
         entityManager.persist(workout);
         entityManager.persist(doneScheduledWorkout);
         entityManager.persist(notDoneScheduledWorkout);
 
 
         // act
-        List<ScheduledWorkout> scheduledWorkouts = repository.findBydone(true);
+        List<ScheduledWorkout> scheduledWorkouts = repository.findBydone(true, user.getId());
 
         assertThat(scheduledWorkouts).hasSize(1);
         ScheduledWorkout foundDoneWorkout = scheduledWorkouts.get(0);

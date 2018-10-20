@@ -85,8 +85,7 @@ public class ApplicationUser {
         return refreshToken;
     }
 
-    public void setRefreshToken(@NotNull String refreshToken) {
-        Assert.notNull(refreshToken, "refresh token has to exist");
+    public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
 }

@@ -23,7 +23,9 @@ public class WorkoutsController {
 
     @GetMapping("/workouts")
     public List<Workout> getCreatedWorkouts() {
-        return workoutsRepository.findAll();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        ApplicationUser currentUser = usersRepository.findByEmail((String) authentication.getPrincipal());
+        return workoutsRepository.findAllByUser(currentUser.getId());
     }
     @PostMapping("/workouts")
     public Workout createWorkout(@RequestBody Workout workout) {
