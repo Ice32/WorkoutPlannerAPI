@@ -1,5 +1,6 @@
 package com.kenan.workoutplanner.WorkoutPlanner.api.controllers;
 
+import com.kenan.workoutplanner.WorkoutPlanner.api.WeekStatistics;
 import com.kenan.workoutplanner.WorkoutPlanner.models.ApplicationUser;
 import com.kenan.workoutplanner.WorkoutPlanner.models.ScheduledWorkout;
 import com.kenan.workoutplanner.WorkoutPlanner.repositories.ScheduledWorkoutsRepository;
@@ -29,12 +30,12 @@ public class StatisticsController {
     }
 
     @GetMapping("/statistics")
-    public Map<Long, Integer> getScheduledWorkouts(@AuthenticationPrincipal String userEmail) {
+    public Map<Long, WeekStatistics> getScheduledWorkouts(@AuthenticationPrincipal String userEmail) {
         ApplicationUser currentUser = usersRepository.findByEmail(userEmail);
         final List<ScheduledWorkout> scheduledWorkouts = scheduledWorkoutsRepository.findBydone(true, currentUser.getId());
         Instant userRegistrationTimestamp = Instant.ofEpochMilli(currentUser.getCreatedAt().getTime());
-        Map<Long, Integer> values = scheduledWorkouts.stream().reduce(
-                new HashMap<Long, Integer>(),
+        Map<Long, WeekStatistics> values = scheduledWorkouts.stream().reduce(
+                new HashMap<Long, WeekStatistics>(),
                 (map, scheduledWorkout) -> {
                     Instant scheduledWorkoutTime = Instant.ofEpochMilli(scheduledWorkout.getTime().getTime());
 
@@ -42,8 +43,13 @@ public class StatisticsController {
                     LocalDateTime endDate = LocalDateTime.ofInstant(scheduledWorkoutTime, ZoneId.of("UTC"));
 
                     long workoutWeek = ChronoUnit.WEEKS.between(startDate, endDate);
-                    map.putIfAbsent(workoutWeek, 0);
-                    map.put(workoutWeek, map.get(workoutWeek) + 1);
+                    map.putIfAbsent(workoutWeek, new WeekStatistics(0, 0));
+                    WeekStatistics currentValueForWeek = map.get(workoutWeek);
+                    WeekStatistics newValueForWeek = new WeekStatistics(
+                            currentValueForWeek.getWorkouts() + 1,
+                            currentValueForWeek.getExercises() + scheduledWorkout.getWorkout().getExercises().size()
+                    );
+                    map.put(workoutWeek, newValueForWeek);
                     return map;
                 },
                 (integerIntegerHashMap, integerIntegerHashMap2) -> null);
