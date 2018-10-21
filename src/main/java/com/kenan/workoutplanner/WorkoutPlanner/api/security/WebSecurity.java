@@ -1,6 +1,5 @@
 package com.kenan.workoutplanner.WorkoutPlanner.api.security;
 
-import com.kenan.workoutplanner.WorkoutPlanner.api.UserDetailsServiceImpl;
 import com.kenan.workoutplanner.WorkoutPlanner.repositories.UsersRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;

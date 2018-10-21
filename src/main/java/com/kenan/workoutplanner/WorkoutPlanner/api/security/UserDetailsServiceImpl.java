@@ -1,4 +1,4 @@
-package com.kenan.workoutplanner.WorkoutPlanner.api;
+package com.kenan.workoutplanner.WorkoutPlanner.api.security;
 
 import com.kenan.workoutplanner.WorkoutPlanner.repositories.UsersRepository;
 import com.kenan.workoutplanner.WorkoutPlanner.models.ApplicationUser;
