@@ -9,7 +9,7 @@ import com.kenan.workoutplanner.WorkoutPlanner.repositories.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,17 +28,15 @@ public class ScheduledWorkoutsController {
     }
 
     @GetMapping("/scheduled_workouts")
-    public List<ScheduledWorkout> getScheduledWorkouts() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        ApplicationUser currentUser = usersRepository.findByEmail((String) authentication.getPrincipal());
+    public List<ScheduledWorkout> getScheduledWorkouts(@AuthenticationPrincipal String userEmail) {
+        ApplicationUser currentUser = usersRepository.findByEmail(userEmail);
         final List<ScheduledWorkout> scheduledWorkouts = scheduledWorkoutsRepository.findAllByUser(currentUser.getId());
         return scheduledWorkouts;
     }
 
     @GetMapping("/scheduled_workouts/{finishedStatus}")
-    public List<ScheduledWorkout> getDoneScheduledWorkouts(@PathVariable("finishedStatus") String finishedStatus) {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        ApplicationUser currentUser = usersRepository.findByEmail((String) authentication.getPrincipal());
+    public List<ScheduledWorkout> getDoneScheduledWorkouts(@PathVariable("finishedStatus") String finishedStatus, @AuthenticationPrincipal String userEmail) {
+        ApplicationUser currentUser = usersRepository.findByEmail(userEmail);
         return scheduledWorkoutsRepository.findBydone(finishedStatus.equals("done"), currentUser.getId());
     }
 

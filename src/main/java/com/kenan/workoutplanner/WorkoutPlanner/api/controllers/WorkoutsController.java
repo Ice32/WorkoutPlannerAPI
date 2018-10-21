@@ -4,8 +4,7 @@ import com.kenan.workoutplanner.WorkoutPlanner.models.ApplicationUser;
 import com.kenan.workoutplanner.WorkoutPlanner.models.Workout;
 import com.kenan.workoutplanner.WorkoutPlanner.repositories.UsersRepository;
 import com.kenan.workoutplanner.WorkoutPlanner.repositories.WorkoutsRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,15 +21,13 @@ public class WorkoutsController {
     }
 
     @GetMapping("/workouts")
-    public List<Workout> getCreatedWorkouts() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        ApplicationUser currentUser = usersRepository.findByEmail((String) authentication.getPrincipal());
+    public List<Workout> getCreatedWorkouts(@AuthenticationPrincipal String userEmail) {
+        ApplicationUser currentUser = usersRepository.findByEmail(userEmail);
         return workoutsRepository.findAllByUser(currentUser.getId());
     }
     @PostMapping("/workouts")
-    public Workout createWorkout(@RequestBody Workout workout) {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        ApplicationUser currentUser = usersRepository.findByEmail((String) authentication.getPrincipal());
+    public Workout createWorkout(@RequestBody Workout workout, @AuthenticationPrincipal String userEmail) {
+        ApplicationUser currentUser = usersRepository.findByEmail(userEmail);
         workout.setUser(currentUser);
         return workoutsRepository.save(workout);
     }

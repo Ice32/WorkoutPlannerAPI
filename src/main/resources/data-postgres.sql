@@ -1,4 +1,4 @@
-INSERT INTO users(full_name, email, password) VALUES ('Kenan Selimovic', 'Kenan@mail.com', '$2a$10$HyKWUMiuTT56b3VFhQONRu85KJMBVLYD5E8ZctETvOTJQXCAG.tQy') ON CONFLICT DO NOTHING;
+INSERT INTO users(full_name, email, password, created_at) VALUES ('Kenan Selimovic', 'Kenan@mail.com', '$2a$10$HyKWUMiuTT56b3VFhQONRu85KJMBVLYD5E8ZctETvOTJQXCAG.tQy', current_timestamp ) ON CONFLICT DO NOTHING;
 
 INSERT
 INTO
@@ -18,13 +18,21 @@ INTO
 VALUES (
   (SELECT id FROM workout WHERE name='Morning stretch' LIMIT 1),
   false,
-  '2018-12-05 20:02:58.628000'
+  current_timestamp + interval '1 day'
 ),
 (
   (SELECT id FROM workout WHERE name='Yoga' LIMIT 1),
   true,
-  '2018-08-05 20:02:58.628000'
-)  ON CONFLICT DO NOTHING;
+  current_timestamp + interval '2 week'
+),(
+  (SELECT id FROM workout WHERE name='Morning stretch' LIMIT 1),
+  true,
+  current_timestamp + interval '1 week'
+),(
+  (SELECT id FROM workout WHERE name='Morning stretch' LIMIT 1),
+  true,
+  current_timestamp + interval '8 day'
+) ON CONFLICT DO NOTHING;
 
 INSERT
 INTO

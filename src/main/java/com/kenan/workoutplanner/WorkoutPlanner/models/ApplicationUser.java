@@ -3,11 +3,10 @@ package com.kenan.workoutplanner.WorkoutPlanner.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,6 +26,10 @@ public class ApplicationUser {
     @JsonBackReference
     @OneToMany(mappedBy = "user", targetEntity=Workout.class, fetch= FetchType.LAZY)
     private List<Workout> workouts = new ArrayList<>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
 
     public ApplicationUser() {}
     public ApplicationUser(String email, String password) {
@@ -87,5 +90,17 @@ public class ApplicationUser {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = new Date();
     }
 }
