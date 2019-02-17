@@ -13,8 +13,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.kenan.workoutplanner.WorkoutPlanner.api.security.SecurityConstants.REFRESH_URL;
-import static com.kenan.workoutplanner.WorkoutPlanner.api.security.SecurityConstants.SIGN_UP_URL;
+import static com.kenan.workoutplanner.WorkoutPlanner.api.security.SecurityConstants.*;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -32,6 +31,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL, REFRESH_URL).permitAll()
+                .antMatchers(HttpMethod.GET, INFO_PAGE_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), bCryptPasswordEncoder, usersRepository))

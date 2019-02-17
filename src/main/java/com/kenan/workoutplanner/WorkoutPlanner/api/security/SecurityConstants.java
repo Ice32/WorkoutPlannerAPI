@@ -8,4 +8,5 @@ public class SecurityConstants {
     public static final String HEADER_STRING_REFRESH_TOKEN = "RefreshToken";
     public static final String SIGN_UP_URL = "/users/registration";
     public static final String REFRESH_URL = "/users/refresh";
+    public static final String INFO_PAGE_URL = "/";
 }
